@@ -493,6 +493,14 @@ function OutlineBtn({ children, onClick }) {
 
 export default function Portfolio() {
   useEffect(() => {
+    // ── Reset browser defaults that cause side borders ──
+    document.documentElement.style.margin  = "0";
+    document.documentElement.style.padding = "0";
+    document.body.style.margin             = "0";
+    document.body.style.padding            = "0";
+    document.body.style.overflowX          = "hidden";
+    document.body.style.width              = "100%";
+
     // Inject Google Fonts
     if (!document.querySelector("#gf-portfolio")) {
       const link = document.createElement("link");
@@ -502,17 +510,27 @@ export default function Portfolio() {
       document.head.appendChild(link);
     }
 
-    // Inject blinking cursor keyframe
-    if (!document.querySelector("#blink-kf")) {
+    // Inject global reset + blink keyframe
+    if (!document.querySelector("#portfolio-global")) {
       const s = document.createElement("style");
-      s.id = "blink-kf";
-      s.textContent = "@keyframes blink{0%,100%{opacity:1}50%{opacity:0}}";
+      s.id = "portfolio-global";
+      s.textContent = `
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html, body { width: 100%; min-height: 100vh; margin: 0; padding: 0; overflow-x: hidden; }
+        @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+      `;
       document.head.appendChild(s);
     }
   }, []);
 
   return (
-    <div style={{ fontFamily: "'Inter', sans-serif", color: T.text }}>
+    <div style={{
+      fontFamily: "'Inter', sans-serif",
+      color: T.text,
+      width: "100%",
+      minWidth: "100%",
+      overflowX: "hidden",
+    }}>
       <NavBar />
       <Hero />
       <About />
