@@ -1,26 +1,24 @@
 import { useState, useEffect } from "react";
 
-// ─── DATA — ✏️ Edit these to customize your portfolio ─────────────
-
-const NAME = "Gerail";
+const NAME = "Gerail Mendoza";
 
 const TAGLINES = [
-  "IT / CS Student",
-  "Incoming OJT Student",
-  "Web Dev in Progress",
+  "CS Student",
+  "Graduating Student",
+  "Software Engineer in Progress",
   "Problem Solver",
 ];
 
 const ABOUT_PARAGRAPHS = [
-  "Hi! I'm Gerail, an IT/CS student from the Philippines currently preparing for my On-the-Job Training. I enjoy building things — from simple web pages to small systems that solve everyday problems.",
+  "Hi! I'm Gerail, an CS student from the Philippines currently preparing for my On-the-Job Training. I enjoy building things — from simple web pages to small systems that solve everyday problems.",
   "I'm eager to apply what I've learned in school to real-world challenges, work with a team, and keep growing as a developer. I'm a fast learner and I always give my best.",
 ];
 
 const INFO_CARD = [
-  { label: "Name",      value: "Gerail" },
-  { label: "Course",    value: "BS Information Technology" },
-  { label: "School",    value: "Your University Here" },
-  { label: "Status",    value: "Incoming OJT Student" },
+  { label: "Name",      value: "Gerail Mendoza" },
+  { label: "Course",    value: "BS Computer Science" },
+  { label: "School",    value: "Holy Angel University" },
+  { label: "Status",    value: "Graduating Student" },
   { label: "Location",  value: "Philippines" },
   { label: "Available", value: "✓ For OJT", green: true },
 ];
@@ -28,7 +26,7 @@ const INFO_CARD = [
 const SKILLS = [
   { category: "Languages",          tags: ["HTML", "CSS", "JavaScript", "Python", "Java"] },
   { category: "Tools & Platforms",  tags: ["Git", "GitHub", "VS Code", "MySQL"] },
-  { category: "Currently Learning", tags: ["React", "PHP", "Node.js"] },
+  { category: "Currently Learning", tags: ["React", "Node.js"] },
 ];
 
 const PROJECTS = [
@@ -40,33 +38,15 @@ const PROJECTS = [
     github: "#",
     demo: "#",
   },
-  {
-    icon: "✅",
-    title: "To-Do List App",
-    desc: "A task manager where you can add, check off, and delete tasks. Data saved in localStorage.",
-    tech: ["HTML", "CSS", "JavaScript"],
-    github: "#",
-    demo: "#",
-  },
-  {
-    icon: "📚",
-    title: "Library Management System",
-    desc: "A CRUD app for managing book records — add, view, update, and delete books from a database.",
-    tech: ["PHP", "MySQL", "HTML/CSS"],
-    github: "#",
-    demo: null,
-  },
 ];
 
 const SOCIALS = [
-  { label: "⌥  GitHub",   href: "https://github.com/yourusername" },
-  { label: "↗  LinkedIn", href: "https://linkedin.com/in/yourprofile" },
-  { label: "↗  Facebook", href: "https://facebook.com/yourprofile" },
+  { label: "⌥  GitHub",   href: "https://github.com/Rex-The-Programmer" },
+  { label: "↗  LinkedIn", href: "https://linkedin.com/in/gerailmendoza" },
+  { label: "↗  Facebook", href: "https://facebook.com/gerailmendoza" },
 ];
 
-const EMAIL = "your.email@gmail.com";
-
-// ─── DESIGN TOKENS ────────────────────────────────────────────────
+const EMAIL = "gerailmendoza17@gmail.com";
 
 const T = {
   accent:      "#2563EB",
@@ -107,12 +87,8 @@ const shared = {
   },
 };
 
-// ─── SCROLL HELPER ────────────────────────────────────────────────
-
 const goto = (id) =>
   document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
-
-// ─── NAV BAR ──────────────────────────────────────────────────────
 
 function NavBar() {
   const [hov, setHov] = useState(null);
@@ -158,8 +134,6 @@ function NavBar() {
     </nav>
   );
 }
-
-// ─── HERO ─────────────────────────────────────────────────────────
 
 function Hero() {
   const [phase, setPhase] = useState({ idx: 0, char: 0, deleting: false });
@@ -252,8 +226,6 @@ function Hero() {
   );
 }
 
-// ─── ABOUT ────────────────────────────────────────────────────────
-
 function About() {
   return (
     <section id="about" style={{ padding: "80px 2rem", background: T.white }}>
@@ -300,8 +272,6 @@ function About() {
   );
 }
 
-// ─── SKILLS ───────────────────────────────────────────────────────
-
 function Skills() {
   return (
     <section id="skills" style={{ padding: "80px 2rem", background: T.bgAlt }}>
@@ -344,8 +314,6 @@ function Skills() {
     </section>
   );
 }
-
-// ─── PROJECTS ─────────────────────────────────────────────────────
 
 function Projects() {
   const [hov, setHov] = useState(null);
@@ -433,8 +401,6 @@ function Projects() {
   );
 }
 
-// ─── CONTACT ──────────────────────────────────────────────────────
-
 function Contact() {
   return (
     <section id="contact" style={{ padding: "80px 2rem", background: T.dark }}>
@@ -469,8 +435,6 @@ function Contact() {
   );
 }
 
-// ─── FOOTER ───────────────────────────────────────────────────────
-
 function Footer() {
   return (
     <footer style={{
@@ -483,8 +447,6 @@ function Footer() {
     </footer>
   );
 }
-
-// ─── REUSABLE BUTTONS ─────────────────────────────────────────────
 
 function PrimaryBtn({ children, onClick }) {
   const [hov, setHov] = useState(false);
