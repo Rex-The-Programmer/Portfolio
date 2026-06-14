@@ -226,10 +226,32 @@ function Hero() {
   );
 }
 
+// ─── ABOUT ────────────────────────────────────────────────────────
+
 function About() {
   return (
-    <section id="about" style={{ padding: "80px 2rem", background: T.white }}>
-      <div style={{ maxWidth: 1100, margin: "0 auto" }}>
+    <section id="about" style={{
+      padding: "80px 2rem", background: T.white,
+      position: "relative", overflow: "hidden",
+    }}>
+      {/* Floating blob — top left */}
+      <div style={{
+        position: "absolute", top: -80, left: -80,
+        width: 380, height: 380, borderRadius: "50%",
+        background: "radial-gradient(circle, rgba(37,99,235,0.10) 0%, transparent 70%)",
+        animation: "float 7s ease-in-out infinite",
+        pointerEvents: "none",
+      }} />
+      {/* Floating blob — bottom right */}
+      <div style={{
+        position: "absolute", bottom: -100, right: -80,
+        width: 420, height: 420, borderRadius: "50%",
+        background: "radial-gradient(circle, rgba(124,58,237,0.09) 0%, transparent 70%)",
+        animation: "float 9s ease-in-out infinite reverse",
+        pointerEvents: "none",
+      }} />
+
+      <div style={{ maxWidth: 1100, margin: "0 auto", position: "relative", zIndex: 1 }}>
         <p style={shared.label}>// about me</p>
         <h2 style={shared.title}>Who I Am</h2>
 
@@ -237,34 +259,53 @@ function About() {
           display: "grid", gridTemplateColumns: "1fr 1fr",
           gap: "4rem", alignItems: "center",
         }}>
-          {/* text column */}
           <div>
             {ABOUT_PARAGRAPHS.map((txt, i) => (
               <p key={i} style={{ color: T.muted, lineHeight: 1.8, marginBottom: "1rem" }}>{txt}</p>
             ))}
-            <div style={{ marginTop: "1.25rem" }}>
+
+            {/* Pulsing OJT badge */}
+            <div style={{
+              display: "inline-flex", alignItems: "center", gap: "0.5rem",
+              background: "rgba(34,197,94,0.08)", border: "1px solid rgba(34,197,94,0.3)",
+              borderRadius: 100, padding: "0.4rem 1rem", marginBottom: "1.25rem",
+            }}>
+              <span style={{
+                width: 8, height: 8, borderRadius: "50%", background: "#22C55E",
+                display: "inline-block", animation: "dotPulse 1.5s ease-in-out infinite",
+              }} />
+              <span style={{ fontSize: "0.82rem", color: "#16A34A", fontWeight: 600 }}>
+                Open to OJT opportunities
+              </span>
+            </div>
+
+            <div style={{ marginTop: "0.25rem" }}>
               <PrimaryBtn onClick={() => goto("contact")}>Let's Connect</PrimaryBtn>
             </div>
           </div>
 
-          {/* info card */}
+          {/* Info card — animated gradient border */}
           <div style={{
-            background: T.white, border: `1px solid ${T.border}`,
-            borderRadius: 12, padding: "2rem",
+            background: "linear-gradient(135deg, #2563EB, #7C3AED, #06B6D4, #2563EB)",
+            backgroundSize: "300% 300%",
+            animation: "gradientBg 4s ease infinite",
+            borderRadius: 14, padding: "2px",
           }}>
-            {INFO_CARD.map((item, i) => (
-              <div key={i} style={{
-                display: "flex", justifyContent: "space-between",
-                padding: "0.75rem 0",
-                borderBottom: i < INFO_CARD.length - 1 ? `1px solid ${T.border}` : "none",
-                fontSize: "0.9rem",
-              }}>
-                <span style={{ color: T.muted, fontWeight: 500 }}>{item.label}</span>
-                <span style={{ color: item.green ? "#22C55E" : T.text, fontWeight: 600 }}>
-                  {item.value}
-                </span>
-              </div>
-            ))}
+            <div style={{ background: T.white, borderRadius: 12, padding: "2rem" }}>
+              {INFO_CARD.map((item, i) => (
+                <div key={i} style={{
+                  display: "flex", justifyContent: "space-between",
+                  padding: "0.75rem 0",
+                  borderBottom: i < INFO_CARD.length - 1 ? `1px solid ${T.border}` : "none",
+                  fontSize: "0.9rem",
+                }}>
+                  <span style={{ color: T.muted, fontWeight: 500 }}>{item.label}</span>
+                  <span style={{ color: item.green ? "#22C55E" : T.text, fontWeight: 600 }}>
+                    {item.value}
+                  </span>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </div>
