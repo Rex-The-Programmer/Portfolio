@@ -313,43 +313,106 @@ function About() {
   );
 }
 
+// ─── SKILLS ───────────────────────────────────────────────────────
+
+const SKILL_COLORS = {
+  "Languages":          { accent: "#2563EB", border: "rgba(37,99,235,0.3)",  tag: "rgba(37,99,235,0.2)"  },
+  "Tools & Platforms":  { accent: "#7C3AED", border: "rgba(124,58,237,0.3)", tag: "rgba(124,58,237,0.2)" },
+  "Currently Learning": { accent: "#10B981", border: "rgba(16,185,129,0.3)", tag: "rgba(16,185,129,0.2)" },
+};
+
 function Skills() {
+  const [hovTag, setHovTag] = useState(null);
+
   return (
-    <section id="skills" style={{ padding: "80px 2rem", background: T.bgAlt }}>
-      <div style={{ maxWidth: 1100, margin: "0 auto" }}>
+    <section id="skills" style={{
+      padding: "80px 2rem", background: "#0A0F1E",
+      position: "relative", overflow: "hidden",
+    }}>
+      {/* Floating orb — blue */}
+      <div style={{
+        position: "absolute", top: "15%", left: "5%",
+        width: 360, height: 360, borderRadius: "50%",
+        background: "radial-gradient(circle, rgba(37,99,235,0.18) 0%, transparent 70%)",
+        animation: "float 7s ease-in-out infinite",
+        pointerEvents: "none",
+      }} />
+      {/* Floating orb — purple */}
+      <div style={{
+        position: "absolute", bottom: "10%", right: "8%",
+        width: 300, height: 300, borderRadius: "50%",
+        background: "radial-gradient(circle, rgba(124,58,237,0.18) 0%, transparent 70%)",
+        animation: "float 9s ease-in-out infinite reverse",
+        pointerEvents: "none",
+      }} />
+      {/* Floating orb — green */}
+      <div style={{
+        position: "absolute", top: "50%", right: "25%",
+        width: 200, height: 200, borderRadius: "50%",
+        background: "radial-gradient(circle, rgba(16,185,129,0.14) 0%, transparent 70%)",
+        animation: "float 5s ease-in-out infinite 1s",
+        pointerEvents: "none",
+      }} />
+
+      <div style={{ maxWidth: 1100, margin: "0 auto", position: "relative", zIndex: 1 }}>
         <p style={shared.label}>// skills</p>
-        <h2 style={shared.title}>What I Know</h2>
-        <p style={shared.subtitle}>Technologies and tools I've been learning and practicing.</p>
+        <h2 style={{ ...shared.title, color: T.white }}>What I Know</h2>
+        <p style={{ ...shared.subtitle, color: "#94A3B8" }}>
+          Technologies and tools I've been learning and practicing.
+        </p>
 
         <div style={{
           display: "grid",
           gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))",
           gap: "1.5rem",
         }}>
-          {SKILLS.map(group => (
-            <div key={group.category} style={{
-              background: T.white, border: `1px solid ${T.border}`,
-              borderRadius: 12, padding: "1.5rem",
-            }}>
-              <p style={{
-                fontSize: "0.8rem", fontWeight: 600, color: T.accent,
-                textTransform: "uppercase", letterSpacing: "0.08em", marginBottom: "1rem",
+          {SKILLS.map(group => {
+            const c = SKILL_COLORS[group.category] || SKILL_COLORS["Languages"];
+            return (
+              <div key={group.category} style={{
+                background: "rgba(255,255,255,0.04)",
+                border: "1px solid rgba(255,255,255,0.08)",
+                borderTop: `3px solid ${c.accent}`,
+                borderRadius: 12, padding: "1.75rem",
+                backdropFilter: "blur(12px)",
               }}>
-                {group.category}
-              </p>
-              <div style={{ display: "flex", flexWrap: "wrap", gap: "0.5rem" }}>
-                {group.tags.map(tag => (
-                  <span key={tag} style={{
-                    background: T.accentLight, color: T.accent,
-                    padding: "0.3rem 0.75rem", borderRadius: 100,
-                    fontSize: "0.82rem", fontWeight: 500,
+                <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", marginBottom: "1.1rem" }}>
+                  <span style={{
+                    width: 10, height: 10, borderRadius: "50%",
+                    background: c.accent, display: "inline-block",
+                    boxShadow: `0 0 8px ${c.accent}`,
+                  }} />
+                  <p style={{
+                    fontSize: "0.8rem", fontWeight: 600, color: c.accent,
+                    textTransform: "uppercase", letterSpacing: "0.08em",
                   }}>
-                    {tag}
-                  </span>
-                ))}
+                    {group.category}
+                  </p>
+                </div>
+
+                <div style={{ display: "flex", flexWrap: "wrap", gap: "0.5rem" }}>
+                  {group.tags.map(tag => (
+                    <span
+                      key={tag}
+                      onMouseEnter={() => setHovTag(tag)}
+                      onMouseLeave={() => setHovTag(null)}
+                      style={{
+                        background: hovTag === tag ? c.accent : c.tag,
+                        color: hovTag === tag ? "#FFFFFF" : c.accent,
+                        border: `1px solid ${c.border}`,
+                        padding: "0.35rem 0.8rem", borderRadius: 100,
+                        fontSize: "0.82rem", fontWeight: 500,
+                        cursor: "default", transition: "all 0.2s",
+                        transform: hovTag === tag ? "scale(1.08)" : "scale(1)",
+                      }}
+                    >
+                      {tag}
+                    </span>
+                  ))}
+                </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
     </section>
