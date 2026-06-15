@@ -419,12 +419,37 @@ function Skills() {
   );
 }
 
+// ─── PROJECTS ─────────────────────────────────────────────────────
+
+const PROJECT_COLORS = [
+  { gradient: "linear-gradient(135deg, #2563EB, #7C3AED)", glow: "rgba(37,99,235,0.25)"  },
+  { gradient: "linear-gradient(135deg, #10B981, #06B6D4)", glow: "rgba(16,185,129,0.25)" },
+  { gradient: "linear-gradient(135deg, #F59E0B, #EF4444)", glow: "rgba(245,158,11,0.25)" },
+];
+
 function Projects() {
   const [hov, setHov] = useState(null);
 
   return (
-    <section id="projects" style={{ padding: "80px 2rem", background: T.white }}>
-      <div style={{ maxWidth: 1100, margin: "0 auto" }}>
+    <section id="projects" style={{
+      padding: "80px 2rem", background: T.white,
+      position: "relative", overflow: "hidden",
+    }}>
+      {/* Background decorations */}
+      <div style={{
+        position: "absolute", top: -120, right: -120,
+        width: 500, height: 500, borderRadius: "50%",
+        background: "radial-gradient(circle, rgba(37,99,235,0.05) 0%, transparent 70%)",
+        pointerEvents: "none",
+      }} />
+      <div style={{
+        position: "absolute", bottom: -100, left: -100,
+        width: 400, height: 400, borderRadius: "50%",
+        background: "radial-gradient(circle, rgba(124,58,237,0.05) 0%, transparent 70%)",
+        pointerEvents: "none",
+      }} />
+
+      <div style={{ maxWidth: 1100, margin: "0 auto", position: "relative", zIndex: 1 }}>
         <p style={shared.label}>// projects</p>
         <h2 style={shared.title}>What I've Built</h2>
         <p style={shared.subtitle}>
@@ -436,69 +461,83 @@ function Projects() {
           gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
           gap: "1.5rem",
         }}>
-          {PROJECTS.map((proj, i) => (
-            <div
-              key={i}
-              onMouseEnter={() => setHov(i)}
-              onMouseLeave={() => setHov(null)}
-              style={{
-                background: T.white, border: `1px solid ${T.border}`,
-                borderRadius: 12, padding: "1.75rem",
-                transform:  hov === i ? "translateY(-4px)" : "none",
-                boxShadow:  hov === i ? "0 12px 32px rgba(0,0,0,0.08)" : "none",
-                transition: "transform 0.2s, box-shadow 0.2s",
-              }}
-            >
-              {/* icon */}
-              <div style={{
-                width: 44, height: 44, background: T.accentLight, borderRadius: 10,
-                display: "flex", alignItems: "center", justifyContent: "center",
-                fontSize: "1.3rem", marginBottom: "1rem",
-              }}>
-                {proj.icon}
-              </div>
+          {PROJECTS.map((proj, i) => {
+            const c = PROJECT_COLORS[i % PROJECT_COLORS.length];
+            const isHov = hov === i;
+            return (
+              <div
+                key={i}
+                onMouseEnter={() => setHov(i)}
+                onMouseLeave={() => setHov(null)}
+                style={{
+                  background: T.white, borderRadius: 14,
+                  overflow: "hidden", border: `1px solid ${T.border}`,
+                  transform: isHov ? "translateY(-6px)" : "none",
+                  boxShadow: isHov
+                    ? `0 20px 48px ${c.glow}, 0 0 0 1px ${c.glow}`
+                    : "0 2px 10px rgba(0,0,0,0.05)",
+                  transition: "transform 0.3s, box-shadow 0.3s",
+                }}
+              >
+                {/* Animated gradient top bar */}
+                <div style={{
+                  height: 5, background: c.gradient,
+                  backgroundSize: "200% 200%",
+                  animation: "gradientBg 3s ease infinite",
+                }} />
 
-              {/* title */}
-              <h3 style={{
-                fontFamily: "'Space Grotesk', sans-serif",
-                fontSize: "1.1rem", fontWeight: 700,
-                marginBottom: "0.5rem", color: T.text,
-              }}>
-                {proj.title}
-              </h3>
-
-              {/* desc */}
-              <p style={{ fontSize: "0.9rem", color: T.muted, lineHeight: 1.7, marginBottom: "1.25rem" }}>
-                {proj.desc}
-              </p>
-
-              {/* tech badges */}
-              <div style={{ display: "flex", flexWrap: "wrap", gap: "0.4rem", marginBottom: "1.25rem" }}>
-                {proj.tech.map(t => (
-                  <span key={t} style={{
-                    fontFamily: "'JetBrains Mono', monospace", fontSize: "0.75rem",
-                    background: T.bgAlt, color: T.muted,
-                    padding: "0.2rem 0.6rem", borderRadius: 4,
-                    border: `1px solid ${T.border}`,
+                <div style={{ padding: "1.75rem" }}>
+                  {/* Gradient icon */}
+                  <div style={{
+                    width: 50, height: 50, background: c.gradient,
+                    backgroundSize: "200% 200%",
+                    animation: "gradientBg 4s ease infinite",
+                    borderRadius: 12, fontSize: "1.4rem",
+                    display: "flex", alignItems: "center", justifyContent: "center",
+                    marginBottom: "1.1rem", boxShadow: `0 4px 14px ${c.glow}`,
                   }}>
-                    {t}
-                  </span>
-                ))}
-              </div>
+                    {proj.icon}
+                  </div>
 
-              {/* links */}
-              <div style={{ display: "flex", gap: "1rem" }}>
-                <a href={proj.github} style={{ fontSize: "0.85rem", fontWeight: 600, color: T.accent, textDecoration: "none" }}>
-                  GitHub →
-                </a>
-                {proj.demo && (
-                  <a href={proj.demo} style={{ fontSize: "0.85rem", fontWeight: 600, color: T.accent, textDecoration: "none" }}>
-                    Live Demo →
-                  </a>
-                )}
+                  <h3 style={{
+                    fontFamily: "'Space Grotesk', sans-serif",
+                    fontSize: "1.1rem", fontWeight: 700,
+                    marginBottom: "0.5rem", color: T.text,
+                  }}>
+                    {proj.title}
+                  </h3>
+
+                  <p style={{ fontSize: "0.9rem", color: T.muted, lineHeight: 1.7, marginBottom: "1.25rem" }}>
+                    {proj.desc}
+                  </p>
+
+                  <div style={{ display: "flex", flexWrap: "wrap", gap: "0.4rem", marginBottom: "1.25rem" }}>
+                    {proj.tech.map(t => (
+                      <span key={t} style={{
+                        fontFamily: "'JetBrains Mono', monospace", fontSize: "0.75rem",
+                        background: T.bgAlt, color: T.muted,
+                        padding: "0.2rem 0.6rem", borderRadius: 4,
+                        border: `1px solid ${T.border}`,
+                      }}>
+                        {t}
+                      </span>
+                    ))}
+                  </div>
+
+                  <div style={{ display: "flex", gap: "1rem" }}>
+                    <a href={proj.github} style={{ fontSize: "0.85rem", fontWeight: 600, color: T.accent, textDecoration: "none" }}>
+                      GitHub →
+                    </a>
+                    {proj.demo && (
+                      <a href={proj.demo} style={{ fontSize: "0.85rem", fontWeight: 600, color: T.accent, textDecoration: "none" }}>
+                        Live Demo →
+                      </a>
+                    )}
+                  </div>
+                </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
     </section>
