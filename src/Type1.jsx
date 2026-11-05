@@ -48,12 +48,11 @@ const PROJECTS = [
     demo: "",
   },
   {
-    kind: "Front-end · Personal",
-    title: "Personal Portfolio",
-    desc: "A responsive portfolio site built from scratch to showcase my skills and projects.",
-    tech: ["HTML", "CSS", "JavaScript"],
-    // TODO: paste your portfolio repo / live URLs. Empty links are hidden.
-    github: "",
+    kind: "Mobile app · HAU",
+    title: "LostNHaund",
+    desc: "A Flutter app for reporting and finding lost-and-found items at Holy Angel University.",
+    tech: ["Flutter"],
+    github: "https://github.com/Rex-The-Programmer/lost_n_haund",
     demo: "",
   },
 ];
@@ -62,7 +61,7 @@ const NAV_LINKS = ["about", "skills", "projects", "contact"];
 
 const SOCIALS = [
   { label: "⌥  GitHub",   href: "https://github.com/Rex-The-Programmer" },
-  { label: "↗  LinkedIn", href: "https://linkedin.com/in/gerailmendoza" },
+  { label: "↗  LinkedIn", href: "https://www.linkedin.com/in/gerail-mendoza-6bb01b443/" },
   { label: "↗  Facebook", href: "https://facebook.com/gerailmendoza" },
 ];
 
@@ -447,7 +446,7 @@ function Projects() {
         <p style={shared.label}>// projects</p>
         <h2 style={shared.title}>What I've Built</h2>
         <p style={shared.subtitle}>
-          Projects that show my progress so far, from my first portfolio site to a full-stack app.
+          A selection of projects I've built and contributed to.
         </p>
 
         <div style={{
