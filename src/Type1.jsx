@@ -10,7 +10,7 @@ const TAGLINES = [
 ];
 
 const ABOUT_PARAGRAPHS = [
-  "Hi! I'm Gerail, an CS student from the Philippines currently preparing for my On-the-Job Training. I enjoy building things — from simple web pages to small systems that solve everyday problems.",
+  "Hi! I'm Gerail, a CS student from the Philippines currently preparing for my On-the-Job Training. I enjoy building things — from simple web pages to small systems that solve everyday problems.",
   "I'm eager to apply what I've learned in school to real-world challenges, work with a team, and keep growing as a developer. I'm a fast learner and I always give my best.",
 ];
 
@@ -24,21 +24,41 @@ const INFO_CARD = [
 ];
 
 const SKILLS = [
-  { category: "Languages",          tags: ["HTML", "CSS", "JavaScript", "Python", "Java"] },
-  { category: "Tools & Platforms",  tags: ["Git", "GitHub", "VS Code", "MySQL"] },
-  { category: "Currently Learning", tags: ["React", "Node.js"] },
+  { category: "Languages",             tags: ["HTML", "CSS", "JavaScript", "Python", "Java", "SQL"] },
+  { category: "Frameworks & Backend",  tags: ["React", "Node.js", "Express", "PostgreSQL"] },
+  { category: "Tools & Platforms",     tags: ["Git", "GitHub", "VS Code", "MySQL", "Supabase", "Figma", "Vercel", "Railway"] },
 ];
 
 const PROJECTS = [
   {
-    icon: "🌐",
+    featured: true,
+    kind: "Full-stack · Class project",
+    title: "Dino Go",
+    desc: "A taming reference guide for ARK: Survival Evolved, modeled after Dododex. Look up the taming method, preferred food, and knockout weapon for 18 common dinos, then save your favorites.",
+    highlights: [
+      "Search and diet filter that work together",
+      "Taming calculator with a food effectiveness table",
+      "Favorites saved to the database, not just the browser",
+      "Kibble recipes matched to each dino's preferred food",
+      "Built on real ARK taming data, checked against Dododex",
+    ],
+    tech: ["React", "Node.js", "Express", "PostgreSQL", "Supabase"],
+    // TODO: paste the Dino Go repo and live URLs. Empty links are hidden.
+    github: "",
+    demo: "",
+  },
+  {
+    kind: "Front-end · Personal",
     title: "Personal Portfolio",
     desc: "A responsive portfolio site built from scratch to showcase my skills and projects.",
     tech: ["HTML", "CSS", "JavaScript"],
-    github: "#",
-    demo: "#",
+    // TODO: paste your portfolio repo / live URLs. Empty links are hidden.
+    github: "",
+    demo: "",
   },
 ];
+
+const NAV_LINKS = ["about", "skills", "projects", "contact"];
 
 const SOCIALS = [
   { label: "⌥  GitHub",   href: "https://github.com/Rex-The-Programmer" },
@@ -87,18 +107,69 @@ const shared = {
   },
 };
 
-const goto = (id) =>
-  document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+const goto = (id) => {
+  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  document.getElementById(id)?.scrollIntoView({ behavior: reduce ? "auto" : "smooth" });
+};
+
+const GLOBAL_CSS = `
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-padding-top: 64px; }
+  html, body { width: 100%; min-height: 100vh; margin: 0; padding: 0; overflow-x: hidden; }
+  :focus-visible { outline: 2px solid #3B82F6; outline-offset: 3px; border-radius: 4px; }
+
+  @keyframes blink      { 0%,100% { opacity: 1 } 50% { opacity: 0 } }
+  @keyframes float      { 0%,100% { transform: translateY(0) } 50% { transform: translateY(-24px) } }
+  @keyframes dotPulse   { 0%,100% { opacity: 1; transform: scale(1) } 50% { opacity: .4; transform: scale(1.5) } }
+  @keyframes gradientBg { 0% { background-position: 0% 50% } 50% { background-position: 100% 50% } 100% { background-position: 0% 50% } }
+
+  .site-nav   { padding: 0 2rem; }
+  .nav-links  { display: flex; gap: 2rem; }
+  .nav-short  { display: none; }
+
+  .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; }
+
+  .feat-body  { display: grid; grid-template-columns: 1.15fr 1fr; gap: 2.5rem; }
+  .feat-list  { border-left: 1px solid #E2E8F0; padding-left: 2.5rem; align-self: center; }
+
+  @media (max-width: 768px) {
+    .about-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+    .feat-body  { grid-template-columns: 1fr; gap: 1.5rem; }
+    .feat-list  { border-left: none; border-top: 1px solid #E2E8F0; padding: 1.5rem 0 0; }
+  }
+  @media (max-width: 560px) {
+    .site-nav  { padding: 0 1.25rem; }
+    .nav-links { gap: 1rem; }
+    .nav-full  { display: none; }
+    .nav-short { display: inline; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation: none !important; transition: none !important; }
+  }
+`;
 
 function NavBar() {
   const [hov, setHov] = useState(null);
-  const links = ["about", "skills", "projects", "contact"];
+  const [active, setActive] = useState(null);
+
+  // highlight the link for the section currently in view
+  useEffect(() => {
+    const obs = new IntersectionObserver(
+      (entries) => entries.forEach((e) => e.isIntersecting && setActive(e.target.id)),
+      { rootMargin: "-40% 0px -55% 0px" }
+    );
+    ["hero", ...NAV_LINKS].forEach((id) => {
+      const el = document.getElementById(id);
+      if (el) obs.observe(el);
+    });
+    return () => obs.disconnect();
+  }, []);
 
   return (
-    <nav style={{
+    <nav className="site-nav" style={{
       position: "fixed", top: 0, left: 0, width: "100%",
       background: "rgba(255,255,255,0.95)", backdropFilter: "blur(10px)",
-      borderBottom: `1px solid ${T.border}`, zIndex: 100, padding: "0 2rem",
+      borderBottom: `1px solid ${T.border}`, zIndex: 100,
     }}>
       <div style={{
         maxWidth: 1100, margin: "0 auto",
@@ -109,19 +180,23 @@ function NavBar() {
           fontSize: "1.2rem", color: T.text,
           background: "none", border: "none", cursor: "pointer", padding: 0,
         }}>
-          {NAME}<span style={{ color: T.accent }}>.</span>
+          <span className="nav-full">{NAME}</span>
+          <span className="nav-short">{NAME.split(" ")[0]}</span>
+          <span style={{ color: T.accent }}>.</span>
         </button>
 
-        <div style={{ display: "flex", gap: "2rem" }}>
-          {links.map(link => (
+        <div className="nav-links">
+          {NAV_LINKS.map(link => (
             <button
               key={link}
               onClick={() => goto(link)}
               onMouseEnter={() => setHov(link)}
               onMouseLeave={() => setHov(null)}
+              aria-current={active === link ? "true" : undefined}
               style={{
-                fontFamily: "'Inter', sans-serif", fontSize: "0.9rem", fontWeight: 500,
-                color: hov === link ? T.accent : T.muted,
+                fontFamily: "'Inter', sans-serif", fontSize: "0.9rem",
+                fontWeight: active === link ? 600 : 500,
+                color: hov === link || active === link ? T.accent : T.muted,
                 background: "none", border: "none", cursor: "pointer",
                 textTransform: "capitalize", transition: "color 0.2s", padding: 0,
               }}
@@ -183,7 +258,7 @@ function Hero() {
           display: "flex", alignItems: "center", gap: "0.5rem",
         }}>
           <span style={{ display: "inline-block", width: 24, height: 2, background: T.accent }} />
-          Hello, world! 👋
+          Hello, world!
         </p>
 
         {/* name */}
@@ -255,10 +330,7 @@ function About() {
         <p style={shared.label}>// about me</p>
         <h2 style={shared.title}>Who I Am</h2>
 
-        <div style={{
-          display: "grid", gridTemplateColumns: "1fr 1fr",
-          gap: "4rem", alignItems: "center",
-        }}>
+        <div className="about-grid">
           <div>
             {ABOUT_PARAGRAPHS.map((txt, i) => (
               <p key={i} style={{ color: T.muted, lineHeight: 1.8, marginBottom: "1rem" }}>{txt}</p>
@@ -313,147 +385,69 @@ function About() {
   );
 }
 
-// ─── SKILLS ───────────────────────────────────────────────────────
-
-const SKILL_COLORS = {
-  "Languages":          { accent: "#2563EB", border: "rgba(37,99,235,0.3)",  tag: "rgba(37,99,235,0.2)"  },
-  "Tools & Platforms":  { accent: "#7C3AED", border: "rgba(124,58,237,0.3)", tag: "rgba(124,58,237,0.2)" },
-  "Currently Learning": { accent: "#10B981", border: "rgba(16,185,129,0.3)", tag: "rgba(16,185,129,0.2)" },
-};
-
 function Skills() {
-  const [hovTag, setHovTag] = useState(null);
-
   return (
-    <section id="skills" style={{
-      padding: "80px 2rem", background: "#0A0F1E",
-      position: "relative", overflow: "hidden",
-    }}>
-      {/* Floating orb — blue */}
-      <div style={{
-        position: "absolute", top: "15%", left: "5%",
-        width: 360, height: 360, borderRadius: "50%",
-        background: "radial-gradient(circle, rgba(37,99,235,0.18) 0%, transparent 70%)",
-        animation: "float 7s ease-in-out infinite",
-        pointerEvents: "none",
-      }} />
-      {/* Floating orb — purple */}
-      <div style={{
-        position: "absolute", bottom: "10%", right: "8%",
-        width: 300, height: 300, borderRadius: "50%",
-        background: "radial-gradient(circle, rgba(124,58,237,0.18) 0%, transparent 70%)",
-        animation: "float 9s ease-in-out infinite reverse",
-        pointerEvents: "none",
-      }} />
-      {/* Floating orb — green */}
-      <div style={{
-        position: "absolute", top: "50%", right: "25%",
-        width: 200, height: 200, borderRadius: "50%",
-        background: "radial-gradient(circle, rgba(16,185,129,0.14) 0%, transparent 70%)",
-        animation: "float 5s ease-in-out infinite 1s",
-        pointerEvents: "none",
-      }} />
-
-      <div style={{ maxWidth: 1100, margin: "0 auto", position: "relative", zIndex: 1 }}>
+    <section id="skills" style={{ padding: "80px 2rem", background: T.bgAlt }}>
+      <div style={{ maxWidth: 1100, margin: "0 auto" }}>
         <p style={shared.label}>// skills</p>
-        <h2 style={{ ...shared.title, color: T.white }}>What I Know</h2>
-        <p style={{ ...shared.subtitle, color: "#94A3B8" }}>
-          Technologies and tools I've been learning and practicing.
-        </p>
+        <h2 style={shared.title}>What I Know</h2>
+        <p style={shared.subtitle}>Technologies and tools I've been learning and practicing.</p>
 
         <div style={{
           display: "grid",
           gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))",
           gap: "1.5rem",
         }}>
-          {SKILLS.map(group => {
-            const c = SKILL_COLORS[group.category] || SKILL_COLORS["Languages"];
-            return (
-              <div key={group.category} style={{
-                background: "rgba(255,255,255,0.04)",
-                border: "1px solid rgba(255,255,255,0.08)",
-                borderTop: `3px solid ${c.accent}`,
-                borderRadius: 12, padding: "1.75rem",
-                backdropFilter: "blur(12px)",
+          {SKILLS.map(group => (
+            <div key={group.category} style={{
+              background: T.white, border: `1px solid ${T.border}`,
+              borderRadius: 12, padding: "1.5rem",
+            }}>
+              <p style={{
+                fontSize: "0.8rem", fontWeight: 600, color: T.accent,
+                textTransform: "uppercase", letterSpacing: "0.08em", marginBottom: "1rem",
               }}>
-                <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", marginBottom: "1.1rem" }}>
-                  <span style={{
-                    width: 10, height: 10, borderRadius: "50%",
-                    background: c.accent, display: "inline-block",
-                    boxShadow: `0 0 8px ${c.accent}`,
-                  }} />
-                  <p style={{
-                    fontSize: "0.8rem", fontWeight: 600, color: c.accent,
-                    textTransform: "uppercase", letterSpacing: "0.08em",
+                {group.category}
+              </p>
+              <div style={{ display: "flex", flexWrap: "wrap", gap: "0.5rem" }}>
+                {group.tags.map(tag => (
+                  <span key={tag} style={{
+                    background: T.accentLight, color: T.accent,
+                    padding: "0.3rem 0.75rem", borderRadius: 100,
+                    fontSize: "0.82rem", fontWeight: 500,
                   }}>
-                    {group.category}
-                  </p>
-                </div>
-
-                <div style={{ display: "flex", flexWrap: "wrap", gap: "0.5rem" }}>
-                  {group.tags.map(tag => (
-                    <span
-                      key={tag}
-                      onMouseEnter={() => setHovTag(tag)}
-                      onMouseLeave={() => setHovTag(null)}
-                      style={{
-                        background: hovTag === tag ? c.accent : c.tag,
-                        color: hovTag === tag ? "#FFFFFF" : c.accent,
-                        border: `1px solid ${c.border}`,
-                        padding: "0.35rem 0.8rem", borderRadius: 100,
-                        fontSize: "0.82rem", fontWeight: 500,
-                        cursor: "default", transition: "all 0.2s",
-                        transform: hovTag === tag ? "scale(1.08)" : "scale(1)",
-                      }}
-                    >
-                      {tag}
-                    </span>
-                  ))}
-                </div>
+                    {tag}
+                  </span>
+                ))}
               </div>
-            );
-          })}
+            </div>
+          ))}
         </div>
       </div>
     </section>
   );
 }
 
-// ─── PROJECTS ─────────────────────────────────────────────────────
-
-const PROJECT_COLORS = [
-  { gradient: "linear-gradient(135deg, #2563EB, #7C3AED)", glow: "rgba(37,99,235,0.25)"  },
-  { gradient: "linear-gradient(135deg, #10B981, #06B6D4)", glow: "rgba(16,185,129,0.25)" },
-  { gradient: "linear-gradient(135deg, #F59E0B, #EF4444)", glow: "rgba(245,158,11,0.25)" },
-];
+function ProjectLink({ href, children }) {
+  if (!href || href === "#") return null;
+  return (
+    <a href={href} target="_blank" rel="noreferrer"
+       style={{ fontSize: "0.85rem", fontWeight: 600, color: T.accent, textDecoration: "none" }}>
+      {children}
+    </a>
+  );
+}
 
 function Projects() {
   const [hov, setHov] = useState(null);
 
   return (
-    <section id="projects" style={{
-      padding: "80px 2rem", background: T.white,
-      position: "relative", overflow: "hidden",
-    }}>
-      {/* Background decorations */}
-      <div style={{
-        position: "absolute", top: -120, right: -120,
-        width: 500, height: 500, borderRadius: "50%",
-        background: "radial-gradient(circle, rgba(37,99,235,0.05) 0%, transparent 70%)",
-        pointerEvents: "none",
-      }} />
-      <div style={{
-        position: "absolute", bottom: -100, left: -100,
-        width: 400, height: 400, borderRadius: "50%",
-        background: "radial-gradient(circle, rgba(124,58,237,0.05) 0%, transparent 70%)",
-        pointerEvents: "none",
-      }} />
-
-      <div style={{ maxWidth: 1100, margin: "0 auto", position: "relative", zIndex: 1 }}>
+    <section id="projects" style={{ padding: "80px 2rem", background: T.white }}>
+      <div style={{ maxWidth: 1100, margin: "0 auto" }}>
         <p style={shared.label}>// projects</p>
         <h2 style={shared.title}>What I've Built</h2>
         <p style={shared.subtitle}>
-          A collection of beginner projects that showcase my progress and learning.
+          Projects that show my progress so far, from my first portfolio site to a full-stack app.
         </p>
 
         <div style={{
@@ -461,56 +455,43 @@ function Projects() {
           gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
           gap: "1.5rem",
         }}>
-          {PROJECTS.map((proj, i) => {
-            const c = PROJECT_COLORS[i % PROJECT_COLORS.length];
-            const isHov = hov === i;
-            return (
-              <div
-                key={i}
-                onMouseEnter={() => setHov(i)}
-                onMouseLeave={() => setHov(null)}
-                style={{
-                  background: T.white, borderRadius: 14,
-                  overflow: "hidden", border: `1px solid ${T.border}`,
-                  transform: isHov ? "translateY(-6px)" : "none",
-                  boxShadow: isHov
-                    ? `0 20px 48px ${c.glow}, 0 0 0 1px ${c.glow}`
-                    : "0 2px 10px rgba(0,0,0,0.05)",
-                  transition: "transform 0.3s, box-shadow 0.3s",
-                }}
-              >
-                {/* Animated gradient top bar */}
-                <div style={{
-                  height: 5, background: c.gradient,
-                  backgroundSize: "200% 200%",
-                  animation: "gradientBg 3s ease infinite",
-                }} />
+          {PROJECTS.map((proj, i) => (
+            <article
+              key={proj.title}
+              onMouseEnter={() => setHov(i)}
+              onMouseLeave={() => setHov(null)}
+              style={{
+                gridColumn: proj.featured ? "1 / -1" : "auto",
+                background: T.white,
+                border: `1px solid ${proj.featured ? T.accent : T.border}`,
+                borderRadius: 12, padding: "1.75rem",
+                transform:  hov === i ? "translateY(-4px)" : "none",
+                boxShadow:  hov === i ? "0 12px 32px rgba(0,0,0,0.08)" : "none",
+                transition: "transform 0.2s, box-shadow 0.2s",
+              }}
+            >
+              <div className={proj.highlights ? "feat-body" : undefined}>
+                <div>
+                  {/* kind */}
+                  <p style={{ fontSize: "0.8rem", color: T.muted, fontWeight: 500, marginBottom: "0.75rem" }}>
+                    {proj.kind}
+                  </p>
 
-                <div style={{ padding: "1.75rem" }}>
-                  {/* Gradient icon */}
-                  <div style={{
-                    width: 50, height: 50, background: c.gradient,
-                    backgroundSize: "200% 200%",
-                    animation: "gradientBg 4s ease infinite",
-                    borderRadius: 12, fontSize: "1.4rem",
-                    display: "flex", alignItems: "center", justifyContent: "center",
-                    marginBottom: "1.1rem", boxShadow: `0 4px 14px ${c.glow}`,
-                  }}>
-                    {proj.icon}
-                  </div>
-
+                  {/* title */}
                   <h3 style={{
                     fontFamily: "'Space Grotesk', sans-serif",
-                    fontSize: "1.1rem", fontWeight: 700,
+                    fontSize: proj.featured ? "1.4rem" : "1.1rem", fontWeight: 700,
                     marginBottom: "0.5rem", color: T.text,
                   }}>
                     {proj.title}
                   </h3>
 
+                  {/* desc */}
                   <p style={{ fontSize: "0.9rem", color: T.muted, lineHeight: 1.7, marginBottom: "1.25rem" }}>
                     {proj.desc}
                   </p>
 
+                  {/* tech badges */}
                   <div style={{ display: "flex", flexWrap: "wrap", gap: "0.4rem", marginBottom: "1.25rem" }}>
                     {proj.tech.map(t => (
                       <span key={t} style={{
@@ -524,20 +505,30 @@ function Projects() {
                     ))}
                   </div>
 
+                  {/* links (hidden until a real URL is set) */}
                   <div style={{ display: "flex", gap: "1rem" }}>
-                    <a href={proj.github} style={{ fontSize: "0.85rem", fontWeight: 600, color: T.accent, textDecoration: "none" }}>
-                      GitHub →
-                    </a>
-                    {proj.demo && (
-                      <a href={proj.demo} style={{ fontSize: "0.85rem", fontWeight: 600, color: T.accent, textDecoration: "none" }}>
-                        Live Demo →
-                      </a>
-                    )}
+                    <ProjectLink href={proj.github}>GitHub →</ProjectLink>
+                    <ProjectLink href={proj.demo}>Live Demo →</ProjectLink>
                   </div>
                 </div>
+
+                {/* highlights (featured project only) */}
+                {proj.highlights && (
+                  <ul className="feat-list" style={{ listStyle: "none" }}>
+                    {proj.highlights.map(h => (
+                      <li key={h} style={{
+                        display: "flex", gap: "0.65rem", alignItems: "baseline",
+                        fontSize: "0.9rem", color: T.text, lineHeight: 1.6, marginBottom: "0.7rem",
+                      }}>
+                        <span style={{ color: T.accent, fontWeight: 700 }}>✓</span>
+                        {h}
+                      </li>
+                    ))}
+                  </ul>
+                )}
               </div>
-            );
-          })}
+            </article>
+          ))}
         </div>
       </div>
     </section>
@@ -585,7 +576,7 @@ function Footer() {
       padding: "1.5rem 2rem", textAlign: "center",
     }}>
       <p style={{ fontSize: "0.85rem", color: "#475569" }}>
-        Built with React · © 2025 {NAME}
+        Built with React · © {new Date().getFullYear()} {NAME}
       </p>
     </footer>
   );
@@ -653,17 +644,14 @@ export default function Portfolio() {
       document.head.appendChild(link);
     }
 
-    // Inject global reset + blink keyframe
-    if (!document.querySelector("#portfolio-global")) {
-      const s = document.createElement("style");
-      s.id = "portfolio-global";
-      s.textContent = `
-        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-        html, body { width: 100%; min-height: 100vh; margin: 0; padding: 0; overflow-x: hidden; }
-        @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
-      `;
-      document.head.appendChild(s);
+    // Inject global styles (replaces the old copy so edits apply on hot reload)
+    let style = document.querySelector("#portfolio-global");
+    if (!style) {
+      style = document.createElement("style");
+      style.id = "portfolio-global";
+      document.head.appendChild(style);
     }
+    style.textContent = GLOBAL_CSS;
   }, []);
 
   return (
