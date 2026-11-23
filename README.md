@@ -1,18 +1,44 @@
-# React + Vite
+# Gerail Mendoza Portfolio
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A personal portfolio website built with React and Vite.
 
-Currently, two official plugins are available:
+## Live Portfolio
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+https://gerail-portfolio.vercel.app
 
-## React Compiler
+## Resume
 
-The React Compiler is enabled on this template. See [this documentation](https://react.dev/learn/react-compiler) for more information.
+The resume is available at [Gerail Mendoza Resume](https://gerail-portfolio.vercel.app/Gerail_Mendoza_Resume.pdf).
 
-Note: This will impact Vite dev & build performances.
+## Projects
 
-## Expanding the ESLint configuration
+- [Dino Go](https://dino-go-fskt.vercel.app) - ARK: Survival Evolved taming guide
+  - [Source code](https://github.com/Rex-The-Programmer/Dino-Go)
+- [LostNHaund](https://github.com/Rex-The-Programmer/lost_n_haund) - Flutter lost-and-found app for Holy Angel University
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Tech Stack
+
+- React
+- Vite
+- JavaScript
+- CSS
+- HTML
+
+## Local Development
+
+```bash
+npm install
+npm run dev
+```
+
+Create a production build with:
+
+```bash
+npm run build
+```
+
+## Contact
+
+- GitHub: https://github.com/Rex-The-Programmer
+- LinkedIn: https://www.linkedin.com/in/gerail-mendoza-6bb01b443/
+- Email: gerailmendoza17@gmail.com

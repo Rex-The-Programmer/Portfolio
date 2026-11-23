@@ -43,9 +43,8 @@ const PROJECTS = [
       "Built on real ARK taming data, checked against Dododex",
     ],
     tech: ["React", "Node.js", "Express", "PostgreSQL", "Supabase"],
-    // TODO: paste the Dino Go repo and live URLs. Empty links are hidden.
-    github: "",
-    demo: "",
+    github: "https://github.com/Rex-The-Programmer/Dino-Go",
+    demo: "https://dino-go-fskt.vercel.app",
   },
   {
     kind: "Mobile app · HAU",
@@ -293,6 +292,24 @@ function Hero() {
         {/* CTA buttons */}
         <div style={{ display: "flex", gap: "1rem", flexWrap: "wrap" }}>
           <PrimaryBtn onClick={() => goto("projects")}>View My Projects</PrimaryBtn>
+          <a
+            href="/Gerail_Mendoza_Resume.pdf"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{
+              padding: "0.75rem 1.75rem",
+              borderRadius: 6,
+              border: "1px solid #334155",
+              fontFamily: "'Inter', sans-serif",
+              fontSize: "0.9rem",
+              fontWeight: 600,
+              color: T.text,
+              background: T.white,
+              textDecoration: "none",
+            }}
+          >
+            View My Resume
+          </a>
           <OutlineBtn  onClick={() => goto("contact")}>Get in Touch</OutlineBtn>
         </div>
       </div>
