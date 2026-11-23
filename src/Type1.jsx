@@ -43,17 +43,15 @@ const PROJECTS = [
       "Built on real ARK taming data, checked against Dododex",
     ],
     tech: ["React", "Node.js", "Express", "PostgreSQL", "Supabase"],
-    // TODO: paste the Dino Go repo and live URLs. Empty links are hidden.
-    github: "",
-    demo: "",
+    github: "https://github.com/Rex-The-Programmer/Dino-Go",
+    demo: "https://dino-go-fskt.vercel.app",
   },
   {
-    kind: "Front-end · Personal",
-    title: "Personal Portfolio",
-    desc: "A responsive portfolio site built from scratch to showcase my skills and projects.",
-    tech: ["HTML", "CSS", "JavaScript"],
-    // TODO: paste your portfolio repo / live URLs. Empty links are hidden.
-    github: "",
+    kind: "Mobile app · HAU",
+    title: "LostNHaund",
+    desc: "A Flutter app for reporting and finding lost-and-found items at Holy Angel University.",
+    tech: ["Flutter"],
+    github: "https://github.com/Rex-The-Programmer/lost_n_haund",
     demo: "",
   },
 ];
@@ -62,7 +60,7 @@ const NAV_LINKS = ["about", "skills", "projects", "contact"];
 
 const SOCIALS = [
   { label: "⌥  GitHub",   href: "https://github.com/Rex-The-Programmer" },
-  { label: "↗  LinkedIn", href: "https://linkedin.com/in/gerailmendoza" },
+  { label: "↗  LinkedIn", href: "https://www.linkedin.com/in/gerail-mendoza-6bb01b443/" },
   { label: "↗  Facebook", href: "https://facebook.com/gerailmendoza" },
 ];
 
@@ -294,6 +292,24 @@ function Hero() {
         {/* CTA buttons */}
         <div style={{ display: "flex", gap: "1rem", flexWrap: "wrap" }}>
           <PrimaryBtn onClick={() => goto("projects")}>View My Projects</PrimaryBtn>
+          <a
+            href="/Gerail_Mendoza_Resume.pdf"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{
+              padding: "0.75rem 1.75rem",
+              borderRadius: 6,
+              border: "1px solid #334155",
+              fontFamily: "'Inter', sans-serif",
+              fontSize: "0.9rem",
+              fontWeight: 600,
+              color: T.text,
+              background: T.white,
+              textDecoration: "none",
+            }}
+          >
+            View My Resume
+          </a>
           <OutlineBtn  onClick={() => goto("contact")}>Get in Touch</OutlineBtn>
         </div>
       </div>
@@ -447,7 +463,7 @@ function Projects() {
         <p style={shared.label}>// projects</p>
         <h2 style={shared.title}>What I've Built</h2>
         <p style={shared.subtitle}>
-          Projects that show my progress so far, from my first portfolio site to a full-stack app.
+          A selection of projects I've built and contributed to.
         </p>
 
         <div style={{
